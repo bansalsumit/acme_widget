@@ -22,4 +22,19 @@ RSpec.describe Product do
       expect(first_product.price).to eq(first_constant[:price])
     end
   end
+
+  describe ".find_by" do
+    it "returns the correct Product object by code" do
+      product = Product.find_by("R01")
+      expect(product).to be_a(Product)
+      expect(product.code).to eq("R01")
+      expect(product.name).to eq("Red Widget")
+      expect(product.price).to eq(32.95)
+    end
+
+    it "returns nil for unknown product code" do
+      product = Product.find_by("X01")
+      expect(product).to be_nil
+    end
+  end
 end
