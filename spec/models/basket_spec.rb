@@ -4,7 +4,13 @@ require_relative "../../app/models/basket"
 RSpec.describe Basket do
   let(:catalogue) { class_double('Product') }
   let(:delivery_calculator) { instance_double('DeliveryCalculator') }
+  let(:offer_calculator) { instance_double('OfferCalculator') }
   let(:basket) { Basket.new(catalogue: catalogue) }
+  let(:red_widget) { double('Product', code: 'R01', price: 32.95) }
+
+  before do
+    allow(catalogue).to receive(:find_by).with('R01').and_return(red_widget)
+  end
 
   describe ".add" do
     it "adds a product code to the basket" do
