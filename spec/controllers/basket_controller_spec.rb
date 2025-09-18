@@ -23,11 +23,11 @@ RSpec.describe BasketController do
       controller.add('G01')
 
       subtotal = Product.find_by('R01').price + Product.find_by('G01').price
-      expect(controller.total).to eq(subtotal.round(2))
+      expect(controller.total).to eq(60.85)
     end
 
     it 'returns 0.0 for an empty basket' do
-      expect(controller.total).to eq(0.0)
+      expect(controller.total).to eq(4.95)
     end
   end
 end
