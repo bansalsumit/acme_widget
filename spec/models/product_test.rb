@@ -37,4 +37,32 @@ RSpec.describe Product do
       expect(product).to be_nil
     end
   end
+
+  describe '.prices_for' do
+    it 'should returns a hash of prices for the given codes' do
+      result = Product.prices_for(['R01', 'B01'])
+      expect(result).to eq({ 'R01' => 32.95, 'B01' => 7.95 })
+    end
+
+    it 'should returns 0.0 for unknown codes' do
+      result = Product.prices_for(['X01'])
+      expect(result).to eq({ 'X01' => 0.0 })
+    end
+
+    it 'removes duplicates in the input' do
+      result = Product.prices_for(["R01", "R01"])
+      expect(result.keys).to eq(["R01"])
+    end
+  end
+
+  describe '.subtotal' do
+    it 'sums the prices for the given codes' do
+      total = Product.subtotal(['R01', 'B01'])
+      expect(total).to eq(40.90)
+    end
+
+    it 'returns 0.0 when no codes are given' do
+      expect(Product.subtotal([])).to eq(0.0)
+    end
+  end
 end

@@ -18,4 +18,16 @@ class Product
   def self.find_by(code)
     all.find { |p| p.code == code }
   end
+
+  def self.prices_for(codes)
+    codes.uniq.each_with_object({}) do |code, hash|
+      product = find_by(code)
+      hash[code] = product&.price.to_f
+    end
+  end
+
+  def self.subtotal(product_codes)
+    prices = prices_for(product_codes)
+    product_codes.map { |code| prices[code] }.sum.round(2)
+  end
 end

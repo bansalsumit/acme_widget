@@ -16,4 +16,18 @@ RSpec.describe BasketController do
       expect { controller.add("X01") }.to raise_error("Unknown product code: X01")
     end
   end
+
+  describe '.total' do
+    it 'returns the total for multiple items' do
+      controller.add('R01')
+      controller.add('G01')
+
+      subtotal = Product.find_by('R01').price + Product.find_by('G01').price
+      expect(controller.total).to eq(subtotal.round(2))
+    end
+
+    it 'returns 0.0 for an empty basket' do
+      expect(controller.total).to eq(0.0)
+    end
+  end
 end
